@@ -43,9 +43,14 @@ This will start the application, and you can access it in your browser by naviga
 
 ## Implemented features
 After each file uploading new data inserted
+
 Data filtering
+
 Data sorting (by clicking on the column)
+
 Inline editing and removing records
 
+
 ## TODO LIST
+
 Data validation :)
