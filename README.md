@@ -1,7 +1,7 @@
 # Contact Manager
 ## Test task for Bits Orchestra
 
-### Repo contains test.csv file and db backup file (db has no records).
+Repo contains test.csv file and db backup file (db has no records).
 
 ## Setup Instructions
 ### 1. Clone the repository
