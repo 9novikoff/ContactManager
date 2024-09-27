@@ -1,16 +1,16 @@
-#Contact Manager
-##Test task for Bits Orchestra
+# Contact Manager
+## Test task for Bits Orchestra
 
-###Repo contains test.csv file and db backup file (db has no records).
+### Repo contains test.csv file and db backup file (db has no records).
 
-##Setup Instructions
-###1. Clone the repository
+## Setup Instructions
+### 1. Clone the repository
 Clone the repository to your local machine using the following command:
 git clone https://github.com/your-repo.git
 Navigate into the project directory:
 cd your-repo
 
-###2. Configure the Database
+### 2. Configure the Database
 The application uses a SQL Server database. You can either restore the database from a provided backup file or use Entity Framework migrations to create a new database.
 
 Option 1: Restore from Backup
@@ -31,7 +31,7 @@ dotnet restore
 dotnet ef database update
 This will apply all the migrations and create the necessary database structure.
 
-###3. Running the Application
+### 3. Running the Application
 To run the application:
 
 Ensure the project is built successfully:
@@ -39,13 +39,13 @@ dotnet build
 dotnet run
 This will start the application, and you can access it in your browser by navigating to http://localhost:5288 (by default).
 
-###4 Upload the test.csv or your own file 
+### 4 Upload the test.csv or your own file 
 
 ##Implemented features
-###After each file uploading new data inserted
-###Data filtering
-###Data sorting (by clicking on the column)
-###Inline editing and removing records
+After each file uploading new data inserted
+Data filtering
+Data sorting (by clicking on the column)
+Inline editing and removing records
 
 ##TODO LIST
-###Data validation :)
+Data validation :)
