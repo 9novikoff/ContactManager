@@ -41,11 +41,11 @@ This will start the application, and you can access it in your browser by naviga
 
 ### 4 Upload the test.csv or your own file 
 
-##Implemented features
+## Implemented features
 After each file uploading new data inserted
 Data filtering
 Data sorting (by clicking on the column)
 Inline editing and removing records
 
-##TODO LIST
+## TODO LIST
 Data validation :)
