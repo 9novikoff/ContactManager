@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Contact Manager</h1>
+    <form asp-controller="Home" asp-action="Upload" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" name="csvFile" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Upload</button>
+    </form>
+</div>

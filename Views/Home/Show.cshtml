@@ -1,0 +1,189 @@
+﻿@model System.Collections.Generic.List<ContactManager.Models.Contact>
+
+@{
+    ViewBag.Title = "Contacts";
+    Layout = "_Layout";
+}
+
+<div class="container">
+        @if (Model != null && Model.Any())
+        {
+            <h2>Contacts</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="sort">Name</th>
+                    <th class="sort">Date of birth</th>
+                    <th class="sort">Is married</th>
+                    <th class="sort">Phone</th>
+                    <th class="sort">Salary</th>
+                </tr>
+                <tr>
+                    <th><input type="text" id="filter-name" placeholder="Filter by name" class="filter-input"/></th>
+                    <th><input type="date" id="filter-dob" placeholder="Filter by date" class="filter-input"/></th>
+                    <th>
+                        <select id="filter-married" class="filter-input">
+                            <option value="">All</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </th>
+                    <th><input type="text" id="filter-phone" placeholder="Filter by phone" class="filter-input"/></th>
+                    <th><input type="number" id="filter-salary" placeholder="Filter by salary" class="filter-input"/></th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contact in Model)
+                    {
+                        <tr>
+                            <form id="@contact.Id" asp-controller="Home" asp-action="Edit" asp-route-id="@contact.Id">
+                                <td>
+                                        <span>@contact.Name</span>
+                                        @Html.TextBoxFor(c => contact.Name, new { style = "display: none" })
+                                    </td>
+                                    <td>
+                                        <span>@contact.DateOfBirth.ToString("yyyy-MM-dd")</span>
+                                        @Html.EditorFor(c => contact.DateOfBirth, new { htmlAttributes = new { type = "date", style = "display: none" } })
+                                    </td>
+                                    <td>
+                                        <span>@contact.Married</span>
+                                        @Html.CheckBoxFor(c => contact.Married, new { style = "display: none" })
+                                    </td>
+                                    <td>
+                                        <span>@contact.Phone</span>
+                                        @Html.TextBoxFor(c => contact.Phone, new { style = "display: none" })
+                                    </td>
+                                    <td>
+                                        <span>@contact.Salary</span>
+                                        @Html.TextBoxFor(c => contact.Salary, new { type = "number", style = "display: none" })
+                                    </td>
+
+                                <td>
+                                    <a class="edit">Edit</a>
+                                    <a id="@contact.Id" class="update" style="display:none">Update</a>
+                                    <a class="cancel" style="display:none">Cancel</a>
+                                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@contact.Id" class="delete">Delete</a>
+                                </td>
+                            </form>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+@section Scripts
+{
+    <script>
+        let ascending = false;
+        
+        function rowCompare(rowA, rowB, columnIndex) {
+             const cellA = $(rowA).find("td").eq(columnIndex).text().toUpperCase();
+             const cellB = $(rowB).find("td").eq(columnIndex).text().toUpperCase();
+                                     
+             if (columnIndex === 1){
+                 return new Date(cellA) - new Date(cellB);    
+             }
+             
+             if (columnIndex === 2){
+                 if (cellA === cellB){
+                     return 0
+                 }
+                 
+                 return cellA > cellB ? 1 : -1;
+             }
+             
+             if ($.isNumeric(cellA) && $.isNumeric(cellB)) {
+                 return parseFloat(cellA) - parseFloat(cellB);
+             }
+
+             return cellA.localeCompare(cellB);
+         }
+        
+        $("body").on("click", ".table .edit", function (){
+            const row = $(this).closest("tr");
+            $("td", row).each(function () {
+                $(this).find("input").show();
+                $(this).find("span").hide();
+            });
+            row.find(".update").show();
+            row.find(".cancel").show();
+            row.find(".delete").hide();
+            $(this).hide();
+        })
+        .on("click", ".table .cancel", function (){
+              const row = $(this).closest("tr");
+              $("td", row).each(function () {
+                  const textSpan = $(this).find("span");
+                  const input = $(this).find("input");
+                  input.hide();
+                  textSpan.show();
+                  input.val(textSpan.text());
+              });
+              row.find(".update").hide();
+              row.find(".edit").show();
+              row.find(".delete").show();
+              $(this).hide();
+        })
+        .on("click", ".update", function (){
+              const id = $(this).attr('id');
+              $("form#"+id).submit();
+        });
+        
+        $(document).ready(function() {
+                $("th .sort").on("click", function() {
+                    const columnIndex = $(this).index();
+                    const table = $(this).parents("table");
+                    const rows = table.find("tbody > tr").get();
+                    
+                    ascending = !ascending;
+        
+                    rows.sort(function (a, b){
+                        if (ascending) 
+                            return rowCompare(a, b, columnIndex);
+                        else
+                            return rowCompare(b, a, columnIndex);
+                    });
+        
+                    $.each(rows, function(index, row) {
+                        table.children("tbody").append(row);
+                    });
+                });
+            });
+        
+    $(document).ready(function() {
+        function filterTable() {
+            const nameFilter = $("#filter-name").val().toLowerCase();
+            const dobFilter = $("#filter-dob").val();
+            const marriedFilter = $("#filter-married").val();
+            const phoneFilter = $("#filter-phone").val().toLowerCase();
+            const salaryFilter = $("#filter-salary").val();
+    
+            $("tbody tr").each(function() {
+                const row = $(this);
+    
+                const name = row.find("td:eq(0)").text().toLowerCase().trim();
+                const dob = row.find("td:eq(1)").text().trim();
+                const married = row.find("td:eq(2)").text().toLowerCase().trim();
+                const phone = row.find("td:eq(3)").text().toLowerCase().trim();
+                const salary = row.find("td:eq(4)").text().trim();
+    
+                const matchName = !nameFilter || name.includes(nameFilter);
+                const matchDob = !dobFilter || dob === dobFilter;
+                const matchMarried = !marriedFilter || marriedFilter === married;
+                const matchPhone = !phoneFilter || phone.includes(phoneFilter);
+                const matchSalary = !salaryFilter || parseFloat(salary) === parseFloat(salaryFilter);
+    
+                if (matchName && matchDob && matchMarried && matchPhone && matchSalary) {
+                    row.show();
+                } else {
+                    row.hide();
+                }
+            });
+        }
+
+        $('.filter-input').on("input change", filterTable);
+    });
+        
+    </script>
+}
