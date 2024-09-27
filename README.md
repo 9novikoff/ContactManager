@@ -6,9 +6,9 @@ Repo contains test.csv file and db backup file (db has no records).
 ## Setup Instructions
 ### 1. Clone the repository
 Clone the repository to your local machine using the following command:
-git clone https://github.com/your-repo.git
+git clone https://github.com/9novikoff/ContactManager.git
 Navigate into the project directory:
-cd your-repo
+cd ContactManager
 
 ### 2. Configure the Database
 The application uses a SQL Server database. You can either restore the database from a provided backup file or use Entity Framework migrations to create a new database.
