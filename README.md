@@ -21,8 +21,8 @@ Option 1: Restore from Backup
 You will find a SQL Server backup file ContactsDb.bak.
 Open SQL Server Management Studio (SSMS) and connect to your local SQL Server instance.
 Right-click on the Databases folder and choose Restore Database.
-In the Source section, select Device, click on the ellipsis (...), and choose the ContactsDb.bak file from the repository.
-Follow the prompts to restore the database.
+In the Source section, select Device, click on the ellipsis (...), and choose the ContactsDb.bak file from the repository. 
+Navigate to the project folder where the .csproj file is located and enter valid connection string in the appsettings.json file.
 
 Option 2: Run Migrations
 If you want to create the database using migrations, follow these steps:
